@@ -8,13 +8,13 @@ from datetime import datetime
 import requests
 
 # ---------- Configuration ----------
-SUBSCRIPTION_ID = "<subscription-id>"
-RESOURCE_GROUP = "<resource-group>"
-WORKSPACE_NAME = "<workspace-name>"
-API_VERSION = "2024-03-01"
+SUBSCRIPTION_ID = "Your-Subscription-ID"  # Replace with your Azure subscription ID
+RESOURCE_GROUP = "Your-Resource-Group"  # Replace with your Azure resource group name
+WORKSPACE_NAME = "Your-Workspace-Name"  # Replace with your Azure workspace name
+API_VERSION = "2025-09-01"
 DRY_RUN = True  # set to False to actually apply the changes
 
-CSV_FILE = "rename_map.csv"
+CSV_FILE = "Analytics_Rules_in_log-testsentdevops-nlwe003.csv"
 OLD_COL = "old_name"   # header of the column with current names
 NEW_COL = "new_name"   # header of the column with new names
 
