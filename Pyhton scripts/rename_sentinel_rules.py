@@ -13,6 +13,7 @@ RESOURCE_GROUP = "Your-Resource-Group"  # Replace with your Azure resource group
 WORKSPACE_NAME = "Your-Workspace-Name"  # Replace with your Azure workspace name
 API_VERSION = "2025-09-01"
 DRY_RUN = True  # set to False to actually apply the changes
+READ_ONLY_PROPS = {"lastModifiedUtc"}   # add any other property the error names
 
 CSV_FILE = "Analytics_Rules_in_log-testsentdevops-nlwe003.csv"
 OLD_COL = "old_name"   # header of the column with current names
@@ -140,10 +141,18 @@ def main():
         if DRY_RUN:
             continue
 
-        body = dict(rule)
-        body.pop("systemData", None)
-        body["properties"] = dict(rule["properties"])
+
+        body = {
+            "kind": rule["kind"],
+            "properties": {
+                k: v for k, v in rule["properties"].items()
+                if k not in READ_ONLY_PROPS
+            },
+        }
         body["properties"]["displayName"] = new
+        if "etag" in rule:
+            body["etag"] = rule["etag"]
+
 
         put_url = f"{BASE_URL}/{rule['name']}?api-version={API_VERSION}"
         try:
